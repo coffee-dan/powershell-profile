@@ -1,19 +1,3 @@
-# Modified prompt script from Powershell Docs that prepends [Admin] when using admin privleges
-
-<#
-function prompt {
-  $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
-  $principal = [Security.Principal.WindowsPrincipal] $identity
-  $adminRole = [Security.Principal.WindowsBuiltInRole]::Administrator
-
-  $(if (Test-Path variable:/PSDebugContext) { '[DBG]: ' }
-    elseif($principal.IsInRole($adminRole)) { "[ADMIN]: " }
-    else { '' }
-  ) + 'PS ' + $(Get-Location) +
-    $(if ($NestedPromptLevel -ge 1) { '>>' }) + '> '
-}
-#>
-
 ## The Following profile configuration was originally built by Mike MacCana and these configs plus more are hosted on his github
 ## https://github.com/mikemaccana/powershell-profile
 
@@ -44,8 +28,9 @@ function edge {
   # New Chromioum Edge
   & "${env:ProgramFiles(x86)}\Microsoft\Edge Dev\Application\msedge.exe"
 }
+
 function settings {
-  start-process ms-setttings:
+  start-process ms-settings:
 }
 
 # Oddly, Powershell doesn't have an inbuilt variable for the documents directory. So let's make one:
