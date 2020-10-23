@@ -1,3 +1,5 @@
+# 10/20/2020
+
 ## The Following profile configuration was originally built by Mike MacCana and these configs plus more are hosted on his github
 ## https://github.com/mikemaccana/powershell-profile
 
