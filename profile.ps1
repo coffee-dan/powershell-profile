@@ -43,15 +43,43 @@ $env:DOCUMENTS = [Environment]::GetFolderPath("mydocuments")
 New-PSDrive -Name HKCR -PSProvider Registry -Root HKEY_CLASSES_ROOT | Out-Null
 
 # Truncate homedir to ~
-function limit-HomeDirectory($Path) {
-  $Path.Replace("$home", "~")
+function Get-CustomDirectory {
+
+  [CmdletBinding()]
+  [Alias("CDir")]
+  [OutputType([String])]
+  Param (
+    [Parameter(ValueFromPipeline=$true,Position=0)]
+    $Path = $PWD.Path
+    
+  )
+
+  Begin {
+    $ComputerName = $env:COMPUTERNAME
+    $UserName = $env:USERNAME
+  }
+
+  Process {
+    
+    if( $Path -ne "$home") {
+      $Path = $Path.Replace("$home", "")
+      $Path = $Path -replace "\\.*\\", ""
+    } else {
+      $Path = $Path.Replace("$home", "~")
+    }
+    $Path = '[' + $UserName + '@' + $ComputerName + ' ' + $Path + ']'
+    $Path
+  }
+  End {
+
+  }
 }
 
 # Must be called 'prompt' to be used by pwsh 
 # https://github.com/gummesson/kapow/blob/master/themes/bashlet.ps1
 function prompt {
   $realLASTEXITCODE = $LASTEXITCODE
-  Write-Host $(limit-HomeDirectory("$pwd")) -ForegroundColor Yellow -NoNewline
+  Write-Host $(Get-CustomDirectory) -ForegroundColor Yellow -NoNewline
   Write-Host " $" -NoNewline
   $global:LASTEXITCODE = $realLASTEXITCODE
   Return " "
