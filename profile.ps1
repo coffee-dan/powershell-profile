@@ -42,7 +42,7 @@ $env:DOCUMENTS = [Environment]::GetFolderPath("mydocuments")
 # PS comes preset with 'HKLM' and 'HKCU' drives but is missing HKCR 
 New-PSDrive -Name HKCR -PSProvider Registry -Root HKEY_CLASSES_ROOT | Out-Null
 
-# Truncate homedir to ~
+# Get Bash style prompt [username@computername currentdirectory]
 function Get-CustomDirectory {
 
   [CmdletBinding()]
@@ -58,21 +58,24 @@ function Get-CustomDirectory {
     $ComputerName = $env:COMPUTERNAME
     $UserName = $env:USERNAME
   }
-
   Process {
-    
+    # Check if user is in home directory
     if( $Path -ne "$home") {
+      # Remove all but the current directory
       $Path = $Path.Replace("$home", "")
       $Path = $Path -replace "\\.*\\", ""
+      $Path = $Path -replace "\\", ""
     } else {
+      # Replace with tilde alias
       $Path = $Path.Replace("$home", "~")
     }
+    # Add additional imformation and brackets
     $Path = '[' + $UserName + '@' + $ComputerName + ' ' + $Path + ']'
     $Path
   }
   End {
-
   }
+
 }
 
 # Must be called 'prompt' to be used by pwsh 
