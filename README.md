@@ -1,4 +1,11 @@
-# Powershell Profile
+# My Powershell Profile
+
+Quick Start:
+```
+PS Set-Location -Path 'C:\Users\YourUserName\Documents\WindowsPowerShell\'
+PS git clone https://github.com/coffee-dan/powershell-profile.git .
+```
+- Change `YourUserName` to the user name for your Windows user name
 
 Core of profile based on [This project](https://github.com/mikemaccana/powershell-profile) <br />
 Mike MacCana describes the code I took as. <br />
