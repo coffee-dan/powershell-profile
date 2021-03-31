@@ -13,7 +13,12 @@ $PSDefaultParameterValues["Out-File:Encoding"] = "utf8"
 # https://technet.microsoft.com/en-us/magazine/hh241048.aspx
 $MaximumHistoryCount = 10000;
 
+# Aliases
 Set-Alias trash Remove-ItemSafely
+# Self authored
+#  `la` list all items, including hidden
+Function List-All {Get-ChildItem . -Force}
+Set-Alias -Name la -Value List-All
 
 function open($file) {
   invoke-item $file
@@ -21,14 +26,6 @@ function open($file) {
 
 function explorer {
   explorer.exe .
-}
-
-function edge {
-  # Old Edge
-  # start microsoft-edge:
-  #
-  # New Chromioum Edge
-  & "${env:ProgramFiles(x86)}\Microsoft\Edge Dev\Application\msedge.exe"
 }
 
 function settings {
